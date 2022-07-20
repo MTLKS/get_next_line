@@ -6,7 +6,7 @@
 /*   By: maliew <maliew@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 02:14:16 by maliew            #+#    #+#             */
-/*   Updated: 2022/07/21 04:34:32 by maliew           ###   ########.fr       */
+/*   Updated: 2022/07/21 04:38:38 by maliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,11 @@ char	*get_next_line(int fd)
 	read_output = gnl_read(&buffer[fd], fd);
 	if (read_output == -1 || (!*buffer[fd] && !read_output))
 	{
-		free(buffer[fd]);
+		if (buffer[fd])
+		{
+			free(buffer[fd]);
+			buffer[fd] = NULL;
+		}
 		return (NULL);
 	}
 	return (gnl_get_lines(&buffer[fd]));
