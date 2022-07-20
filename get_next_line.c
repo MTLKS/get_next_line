@@ -6,34 +6,11 @@
 /*   By: maliew <maliew@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 02:13:14 by maliew            #+#    #+#             */
-/*   Updated: 2022/07/21 05:16:14 by maliew           ###   ########.fr       */
+/*   Updated: 2022/07/21 05:55:45 by maliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static char	*gnl_substr(char *s, int start, int len)
-{
-	char	*res;
-	int		i;
-
-	if (!s)
-		return (NULL);
-	if (gnl_strlen(s) < start)
-		return (gnl_strdup(""));
-	if (gnl_strlen(s + start) < len)
-		len = gnl_strlen(s + start);
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	len++;
-	i = 0;
-	s += start;
-	while (len-- > 1 && *s)
-		res[i++] = *s++;
-	res[i] = '\0';
-	return (res);
-}
 
 static int	gnl_read(char **buffer, int fd)
 {
@@ -41,22 +18,21 @@ static int	gnl_read(char **buffer, int fd)
 	char	*temp;
 	int		read_output;
 
-	new_buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
+	new_buffer = (char *)gnl_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!new_buffer)
 		return (-1);
-	gnl_bzero(new_buffer, BUFFER_SIZE + 1);
 	if (!*buffer)
-		*buffer = gnl_strdup("");
+		*buffer = gnl_calloc(1, 1);
 	read_output = 1;
 	while (!gnl_strchr(*buffer, '\n') && read_output > 0)
 	{
 		read_output = read(fd, new_buffer, BUFFER_SIZE);
 		if (read_output == -1)
 			break ;
+		new_buffer[read_output] = '\0';
 		temp = gnl_strjoin(*buffer, new_buffer);
 		free(*buffer);
 		*buffer = temp;
-		gnl_bzero(new_buffer, BUFFER_SIZE);
 	}
 	free(new_buffer);
 	return (read_output);

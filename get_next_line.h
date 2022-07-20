@@ -6,7 +6,7 @@
 /*   By: maliew <maliew@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 02:22:13 by maliew            #+#    #+#             */
-/*   Updated: 2022/07/21 05:11:24 by maliew           ###   ########.fr       */
+/*   Updated: 2022/07/21 05:48:11 by maliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 
 char	*get_next_line(int fd);
 
-void	gnl_bzero(void *s, int n);
 int		gnl_strlen(char *s);
 char	*gnl_strchr(char *s, char c);
-char	*gnl_strdup(char *s1);
 char	*gnl_strjoin(char *s1, char *s2);
+char	*gnl_substr(char *s, int start, int len);
+void	*gnl_calloc(int count, int size);
 
 #endif
