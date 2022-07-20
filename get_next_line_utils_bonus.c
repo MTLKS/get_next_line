@@ -6,11 +6,11 @@
 /*   By: maliew <maliew@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 03:59:26 by maliew            #+#    #+#             */
-/*   Updated: 2022/07/21 03:59:27 by maliew           ###   ########.fr       */
+/*   Updated: 2022/07/21 05:14:46 by maliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	gnl_bzero(void *s, int n)
 {
@@ -37,25 +37,19 @@ char	*gnl_strchr(char *s, char c)
 	return (0);
 }
 
-char	*gnl_substr(char *s, int start, int len)
+char	*gnl_strdup(char *s1)
 {
 	char	*res;
+	int		len;
 	int		i;
 
-	if (!s)
-		return (NULL);
-	if (gnl_strlen(s) < start)
-		return (gnl_strjoin("", ""));
-	if (gnl_strlen(s + start) < len)
-		len = gnl_strlen(s + start);
+	len = gnl_strlen(s1);
 	res = (char *)malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
-	len++;
 	i = 0;
-	s += start;
-	while (len-- > 1 && *s)
-		res[i++] = *s++;
+	while (i < len)
+		res[i++] = *s1++;
 	res[i] = '\0';
 	return (res);
 }

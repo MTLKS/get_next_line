@@ -6,13 +6,36 @@
 /*   By: maliew <maliew@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 02:14:16 by maliew            #+#    #+#             */
-/*   Updated: 2022/07/21 04:38:38 by maliew           ###   ########.fr       */
+/*   Updated: 2022/07/21 05:15:22 by maliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-int	gnl_read(char **buffer, int fd)
+static char	*gnl_substr(char *s, int start, int len)
+{
+	char	*res;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	if (gnl_strlen(s) < start)
+		return (gnl_strdup(""));
+	if (gnl_strlen(s + start) < len)
+		len = gnl_strlen(s + start);
+	res = (char *)malloc((len + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	len++;
+	i = 0;
+	s += start;
+	while (len-- > 1 && *s)
+		res[i++] = *s++;
+	res[i] = '\0';
+	return (res);
+}
+
+static int	gnl_read(char **buffer, int fd)
 {
 	char	*new_buffer;
 	char	*temp;
@@ -39,7 +62,7 @@ int	gnl_read(char **buffer, int fd)
 	return (read_output);
 }
 
-char	*gnl_get_lines(char **buffer)
+static char	*gnl_pop_buffer(char **buffer)
 {
 	char	*res;
 	char	*temp;
@@ -73,5 +96,5 @@ char	*get_next_line(int fd)
 		}
 		return (NULL);
 	}
-	return (gnl_get_lines(&buffer[fd]));
+	return (gnl_pop_buffer(&buffer[fd]));
 }
